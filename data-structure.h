@@ -1,3 +1,6 @@
+#ifndef DATA_STRUCTURE_H
+#define DATA_STRUCTURE_H
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -17,6 +20,8 @@ typedef struct {
 
 float floor(float n);
 int max(int a, int b);
+int hash1(int key, const int length);
+int hash2(int key, const int lenght);
 
 
 bool acho(pdata r, FILE *path);
