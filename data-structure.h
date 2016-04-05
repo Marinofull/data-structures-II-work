@@ -24,11 +24,12 @@ int hash1(int key, const int length);
 int hash2(int key, const int lenght);
 
 
-bool acho(pdata r, FILE *path);
-void search(pdata r, FILE *path);
+bool acho(int id, FILE *path);
+void search(int id, FILE *path);
 void insert(pdata r, FILE *path);
 void remove(int id, FILE *path);
-void print(FILE *path);
+void print(int i, FILE path);
+void printAll(FILE *path, int length);
 void media(FILE *path);
 
 pdata create(int id, int age, char *name);

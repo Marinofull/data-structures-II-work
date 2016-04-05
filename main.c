@@ -30,7 +30,7 @@ int main(){
                 remove(id, "aqui");
                 break;
             case 'p':
-                print("aqui");
+                printAll("aqui", (int) TAMANHO_ARQUIVO);//presisa msm bindar? o.O
                 break;
             case 'm':
                 media("aqui");
