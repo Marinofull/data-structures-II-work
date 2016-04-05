@@ -33,7 +33,7 @@ int main(){
                 printAll("aqui", (int) TAMANHO_ARQUIVO);//presisa msm bindar? o.O
                 break;
             case 'm':
-                media("aqui");
+                media("aqui", (int) TAMANHO_ARQUIVO);
                 break;
             case 'e':
                 return 0;

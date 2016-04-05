@@ -1,5 +1,20 @@
 #include "data-structure.h"
 
+int max(const long a, const int b)//melhor reescrever como macro dpois
+{
+    return (a<b)?a:b;
+}
+
+/*
+ * https://stackoverflow.com/questions/7868373/get-whole-number-part-of-a-float-objective-c
+ * the guy sads "Converting to int won't work if the floating-point number is outside the range of int."
+ * then concert to a long kkk
+ * */
+long floor(float x)
+{
+   return (long) x;
+}
+
 int hash1(int key, const int length)
 {
     return key % length;
@@ -16,17 +31,21 @@ pdata create(int id, int age, char *name)
     r.id = id;
     r.age = age;
     strcpy(r.name, name);
+    r.javi = 0;
     r.link = NULL; //pode isso? o.O
 
     return &r;
 }
 
-bool acho(int id, FILE *path);
+bool acho(int id, FILE *path, const int mode);
+//quando encontra retorna o registro
+//se no reg buscado javi == 0, soma com mode
+//se somou, inc no int no inicio do arquivo
 
 void search(int id, FILE *path)
 {
     data r;
-    r = acho(id, path);
+    r = acho(id, path, 1);
 
     if(r){
         printf("chave: %d\n", r.id);
@@ -75,7 +94,7 @@ void print(int i, FILE *path)
 
 }
 
-void printAll(FILE *path, int length)
+void printAll(FILE *path, const int length)
 {
     for(int i=0; i<length; i++)
         print(i, path);
@@ -87,8 +106,11 @@ apenas o valor da média do número de acessos a registros do arquivo, considera
 com uma única casa decimal.
  */
 
-void media(FILE *path)
+void media(FILE *path, const int length)
 {
-//talvez seja melhor quando consultar o reg nunca consultado incrementar um contador
-//será preciso add mais um campo da estrutura
+    int total;
+    float media;
+    media = total / length;
+    //pega o total de acessos no int do começo do arquivo
+    printf("%.1f\n", media);
 }
