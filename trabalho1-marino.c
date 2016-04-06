@@ -11,12 +11,6 @@ typedef struct {
 
 }cchain, *pcchain;
 
-//h1 (chave) = chave mod TAMANHO_ARQUIVO
-//h2 (chave) = max{ chave/TAMANHO_ARQUIVO, 1}
-//O programa deverá conter duas constantes:
-// TAMANHO_ARQUIVO: indica o número máximo de registros do arquivo.
-// MAXIMO_VALOR_APONTADOR: indica o maior valor possível para o campo apontador
-
 int max(int a, int b);
 int hash1(int key);
 int hash2(int key);
@@ -26,35 +20,18 @@ void initialize();
 int search(int id, int *contAccess, int mode);
 void insert(int id, char *name, int age);
 void remover(int id);
-// void print(int i, FILE path);
 void printAll();
 void media();
 
 // pcchain create(int id, int age, char *name);
 
-// TAMANHO_ARQUIVO: indica o número máximo de registros do arquivo.
-// MAXIMO_VALOR_APONTADOR: indica o maior valor possível para o campo apontador
- FILE *f;
+FILE *f;
 
 int main(){
     int id, age, link, contAccess;
     char name[20], op;
 
     initialize();
-
-    // cchain r;
-    // r.id=16;
-    // r.age = 321;
-    // r.link = 2;
-    // strcpy(r.name, "flavio");
-    // fseek(f, sizeof(cchain)*5, SEEK_SET);
-    // fwrite(&r, sizeof(cchain), 1, f);
-    // r.id=5;
-    // r.age = 3231;
-    // r.link = 0;
-    // strcpy(r.name, "flavia");
-    // fseek(f, sizeof(cchain)*7, SEEK_SET);
-    // fwrite(&r, sizeof(cchain), 1, f);
 
     for(;;)
     {
@@ -97,13 +74,6 @@ int max(int a, int b)//melhor reescrever como macro dpois
     return (a>b)?a:b;
 }
 
-/*
- * https://stackoverflow.com/questions/7868373/get-whole-number-part-of-a-float-objective-c
- * the guy sads "Converting to int won't work if the floating-point number is outside the range of int."
- * then concert to a long kkk
- * */
-
-
 int hash1(int key)
 {
     return key % TAMANHO_ARQUIVO;
@@ -129,7 +99,6 @@ void initialize()
     }
 }
 
-
 /*
 pcchain create(int id, int age, char *name)
 {
@@ -138,7 +107,7 @@ pcchain create(int id, int age, char *name)
     r.age = age;
     strcpy(r.name, name);
     r.link = 0;
-    return NULL;
+    return &cchain;
 }*/
 
 int search(int id, int *contAccess, int mode)
@@ -237,8 +206,7 @@ void insert(int id, char *name, int age)
                 fseek(f, sizeof(cchain)*i, SEEK_SET);
                 fwrite(&r, sizeof(cchain), 1, f);
 
-
-
+                //inicializa pra a lógica do vetor
                 cchain v[TAMANHO_ARQUIVO];
                 int qtdelem=0, prox = acho;
 
@@ -269,10 +237,7 @@ void insert(int id, char *name, int age)
     else{
         printf("chave ja existente: %d\n", id);
     }
-
-
 }
-
 
 
 void remover(int id)
@@ -294,6 +259,7 @@ void remover(int id)
         fseek(f, sizeof(cchain)*i, SEEK_SET);
         fwrite(&r, sizeof(cchain), 1, f);
 
+        //inicializa pra a lógica do vetor
         cchain v[TAMANHO_ARQUIVO];
         int qtdelem=0, prox = acho;
 
@@ -341,11 +307,6 @@ void printAll()
         }
 }
 
-/*
-apenas o valor da média do número de acessos a registros do arquivo, considerando-se uma consulta a cada um dos registros armazenados no arquivo. Esta média deve ser apresentada sempre como um valor real,
-com uma única casa decimal.
- */
-
 void media()
 {
     int i, contAccess;
@@ -370,4 +331,3 @@ void media()
         printf("%.1f\n", media);
     }
 }
-
