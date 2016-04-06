@@ -1,4 +1,7 @@
 #include "data-structure.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 // TAMANHO_ARQUIVO: indica o número máximo de registros do arquivo.
 // MAXIMO_VALOR_APONTADOR: indica o maior valor possível para o campo apontador
