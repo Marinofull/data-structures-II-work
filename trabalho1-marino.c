@@ -8,7 +8,6 @@
 typedef struct {
     int id, age, link;
     char name[20];
-
 }cchain, *pcchain;
 
 int max(int a, int b);
@@ -110,6 +109,13 @@ pcchain create(int id, int age, char *name)
     return &cchain;
 }*/
 
+/*
+contAccess passa por referência um inteiro que receberá a quantidade de acessos daquele procurado
+os modes são:
+    0 = busca normal, se deseja imprimir os printfs do registro
+    1 = não deseja imprimir os printfs
+*/
+
 int search(int id, int *contAccess, int mode)
 {
     cchain r;
@@ -127,7 +133,7 @@ int search(int id, int *contAccess, int mode)
     }
 
     if(mode){
-        return (r.id == id)?p:-1; // se num fô faz isso
+        return (r.id == id)?p:-1;
     }else{
         if(r.id == id)
         { // pq r.id == id
