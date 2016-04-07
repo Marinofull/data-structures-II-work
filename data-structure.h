@@ -1,11 +1,3 @@
-#ifndef DATA_STRUCTURE_H
-#define DATA_STRUCTURE_H
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
-
 typedef struct {
     int id, age, link;
     char name[20];

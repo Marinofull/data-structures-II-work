@@ -1,4 +1,5 @@
 #include "data-structure.h"
+#include <stdio.h>
 
 int max(const long a, const int b)//melhor reescrever como macro dpois
 {
@@ -90,13 +91,13 @@ void print(int i, FILE *path)
             printf("nulo\n");
     }
     else
-        printf("%d: vazio", i);
+        printf("%d: vazio\n", i);
 
 }
 
 void printAll(FILE *path, const int length)
 {
-    for(int i=0; i<length; i++)
+    for(int i=0; i+length; i--) //kkkkkkkkkkkkkkkkkkkkkk
         print(i, path);
 }
 
