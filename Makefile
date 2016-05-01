@@ -16,8 +16,8 @@ CC=gcc
 # CFLAGS= -c -Wall
 CFLAGS= -c
 LDFLAGS= -g -o
-SOURCE=trabalho1-marino.c
-EXECUTABLE=trabalho1-marino
+SOURCE=trabalho2-marino.c
+EXECUTABLE=trabalho2-marino
 
 
 all: $(EXECUTABLE)

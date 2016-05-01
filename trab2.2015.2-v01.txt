@@ -32,6 +32,7 @@ tamanho do texto;
 2. no texto e no padrão somente poderão ocorrer os seguintes caracteres:
 letras minúsculas, sem acento; ponto (’.’); vírgula (’,’) e espaço. O último
 caractere do texto e do padrão não será um espaço.
+
 Após o padrão, haverá uma sequência de operações, uma por linha. O
 conjunto de operações a serem implementadas e seus formatos são os seguintes:
 1. busca padrão: esta operação consistirá de uma única linha contendo a
@@ -39,9 +40,7 @@ letra ’s’. Esta operação indicará a partir de quais posições do texto o
 padrão ocorre. A posição do primeiro caractere é a posição 1.
 A saída desta operação deve indicar, uma por linha, as posições a partir das quais o padrão ocorre. Caso o padrão não ocorra no texto, esta
 operação não gera nenhuma saída.
-1
-
-2. impressão da tabela delta1 : esta operação conterá apenas uma linha,
+2. impressão da tabela delta1 : esta operação conterá apenas uma linha,
 contendo a letra ’u’. Esta operação imprime a tabela delta1 , como descrito
 no artigo.
 A saída deverá ser da seguinte forma. Na primeira linha, deve aparecer
@@ -80,7 +79,3 @@ Observação Importante: Para as linguagens C, C++ e Java, somente trabalhos fei
 • Java: compilador java do JDK (mais recente)
 Não serão compilados trabalhos em outros compiladores! Erros ocasionados por uso de diferentes compiladores serão considerados erros
 do trabalho!
-
-2
-
-
