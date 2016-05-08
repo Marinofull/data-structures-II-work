@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+void delta1(char *pattern, int *delta1table, int len);
+void printdelta1(int *delta1table);
+
 int main()
 {
     char op;
@@ -21,6 +24,7 @@ int main()
     int i;
     for(i=0; i<128; i++)
         delta1table[i]=patternlength;
+    delta1(pattern, delta1table, patternlength);
     delta2table = (int*) malloc(sizeof(int) * patternlength);
 
     for(;;){
@@ -30,7 +34,8 @@ int main()
                 printf("voce selecionou %c\n", op);
                 break;
             case 'u':
-                printf("voce selecionou %c\n", op);
+                //printf("voce selecionou %c\n", op);
+                printdelta1(delta1table);
                 break;
             case 'd':
                 printf("voce selecionou %c\n", op);
@@ -56,12 +61,31 @@ void search(int length, char *text, char *pattern){
 
 int* bmoore(int length, char *text, char *pattern){}
 int* delta2(char *pattern){}
-void printdelta1(int *delta1table){}
 void printdelta2(int *delta2table){}
 */
 
 void delta1(char *pattern, int *delta1table, int len){
     int i;
-    for(i=0; i<len-1; i++)
-        delta1table[pattern[i]]= (len-1) - i;
+    for(i=0; i<len; i++)
+        delta1table[pattern[i]]= len - (i+1);
+}
+
+//letras minúsculas, sem acento; ponto (’.’); vírgula (’,’) e espaço(46, 44, 32[utf-8 unix]). O último
+void printdelta1(int *delta1table){
+    int i;
+    printf("Tabela Delta 1:\n");
+    for (i=97; i<97+25; i++)
+        printf("%c: %d\n", i, delta1table[i]);
+    printf("’.’: %d\n", delta1table[46]);
+    printf("’,’: %d\n", delta1table[44]);
+    printf("’ ’: %d\n", delta1table[32]);
+    //printf("’.’: %d", delta1table['.']);
+    //printf("’,’: %d", delta1table[',']);
+    //printf("’ ’: %d", delta1table[' ']);
+/*o caractere, seguido de dois pontos (’:’), seguido de um espaço,
+seguido do valor de delta1 para o caractere.
+Primeiro devem aparecer as letras, em ordem crescente, depois
+o ponto (’.’), depois a vírgula (’,’) e depois o espaço. O caractere espaço
+deve aparecer como a sequência de caracteres apóstrofe, espaço, apóstrofe
+(’ ’).*/
 }
