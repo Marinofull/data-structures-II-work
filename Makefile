@@ -43,7 +43,7 @@ cleanBin:
 	rm -rf $(EXECUTABLE)
 
 cleanFiles:
-	rm -rf lili
+	rm -rf out*
 
 # help
 

@@ -66,7 +66,7 @@ int* bmoore(int length, char *text, char *pattern){}
 */
 
 void bmoore(int lent, char *text, int lenp, char *pattern, int *delta1table, int *delta2table){
-    int i, aki;
+    int jmp, aux, i, aki;
     //int *whereis;
 
     for(i=lenp-1;i<lent;){ //for eh parado quando o apontador ultrapassa o tamanho do texto
@@ -77,8 +77,9 @@ void bmoore(int lent, char *text, int lenp, char *pattern, int *delta1table, int
             i++; // enquanto nao ha delta2
             //i= i-(lenp-1) + delta2table[0]; //delta2table[0] além de um salto maior que i++, também permite encontrar um padrao que tem prefixo no sufixo do anterior encontrado
         }else{
-            aki = delta1table[text[i-(lenp-1-aki)]];
-            i+= (aki)?aki:1; // se o delta1 do salto for zero, então usa 1
+            aux = i - (lenp -1 - aki);//(lenp-1-aki) é quantos voltou até quebrar. aux recebe o local que quebrou
+            jmp = delta1table[text[aux]];
+            i = (jmp)?(aux+jmp):(i+1); // se o delta1 do salto for zero, então salta +1 apartir de i
             //i+= max(delta2table[aki], delta1table[text[pos-aki]]); //salta o valor maior
         }
     }
