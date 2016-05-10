@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define max(a, b) ((a < b) ? b : a)
+
 void delta1(char *pattern, int *delta1table, int len);
 void printdelta1(int *delta1table);
-void delta2(char *pattern, int delta2table, int len);
+void delta2(char *pattern, int *delta2table, int len);
 void printdelta2(char *pattern, int *delta2table, int len);
 
 void bmoore(int lent, char *text, int lenp, char *pattern, int *delta1table, int *delta2table);
@@ -31,6 +33,7 @@ int main()
         delta1table[i]=patternlength;
     delta1(pattern, delta1table, patternlength);
     delta2table = (int*) malloc(sizeof(int) * patternlength);
+    delta2(pattern, delta2table, patternlength);
 
     for(;;){
         scanf(" %c", &op);
@@ -42,7 +45,7 @@ int main()
                 printdelta1(delta1table);
                 break;
             case 'd':
-                printf("não há nada para opcao %c\n", op);
+                printdelta2(pattern, delta2table, patternlength);
                 break;
             case 'e':
                 return 0;
@@ -79,7 +82,7 @@ void bmoore(int lent, char *text, int lenp, char *pattern, int *delta1table, int
         }else{
             aux = i - (lenp -1 - aki);//(lenp-1-aki) é quantos voltou até quebrar. aux recebe o local que quebrou
             jmp = delta1table[text[aux]];
-            i = (jmp)?(aux+jmp):(i+1); // se o delta1 do salto for zero, então salta +1 apartir de i
+            i = (jmp)?(i+jmp):(i+1); // se o delta1 do salto for zero, então salta +1 apartir de i
             //i+= max(delta2table[aki], delta1table[text[pos-aki]]); //salta o valor maior
         }
     }
@@ -102,7 +105,7 @@ void delta1(char *pattern, int *delta1table, int len){
         delta1table[pattern[i]]= len - (i+1);
 }
 
-//letras minúsculas, sem acento; ponto (’.’); vírgula (’,’) e espaço(46, 44, 32[utf-8 unix]). O último
+//letras minúsculas, sem acento; ponto (’.’); vírgula (’,’) e espaço(46, 44, 32[utf-8 unix]).
 void printdelta1(int *delta1table){
     int i;
     printf("Tabela Delta 1:\n");
@@ -111,9 +114,6 @@ void printdelta1(int *delta1table){
     printf(".: %d\n", delta1table[46]);
     printf(",: %d\n", delta1table[44]);
     printf("’ ’: %d\n", delta1table[32]);
-    //printf(".: %d", delta1table['.']);
-    //printf(",: %d", delta1table[',']);
-    //printf("’ ’: %d", delta1table[' ']);
 /*o caractere, seguido de dois pontos (’:’), seguido de um espaço,
 seguido do valor de delta1 para o caractere.
 Primeiro devem aparecer as letras, em ordem crescente, depois
@@ -122,22 +122,57 @@ deve aparecer como a sequência de caracteres apóstrofe, espaço, apóstrofe
 (’ ’).*/
 }
 
-void delta2(char *pattern, int delta2table, int len){}
+int suffix_is_prefix(char *pattern, int lenp, int pos) {
+    int i, lensuffix = lenp - pos;
+    for (i=0; (i < lensuffix) && (pattern[i] != pattern[pos+i]); i++);
+    //se lensuffix-i for zero é pq é prefixo: então retorne 1
+    return (lensuffix-i)?0:1;
+}
+
+//suffix_length("dddbcabc", 8, 4) = 2
+int suffix_length(char *pattern, int lenp, int pos) {
+    int i;
+    // increment suffix length i to the first mismatch or beginning
+    // of the pattern
+    for (i = 0; (pattern[pos-i] == pattern[lenp-1-i]) && (i < pos); i++);
+    return i;
+}
+
+void delta2(char *pattern, int *delta2table, int lenp){
+    int p;
+    int last_prefix_index = lenp-1;
+
+    //first loop
+    for (p=lenp-1; p>=0; p--) {
+        if (suffix_is_prefix(pattern, lenp, p+1)) {
+            last_prefix_index = p+1;
+        }
+        delta2table[p] = last_prefix_index + (lenp-1 - p);
+    }
+
+    // second loop
+    for (p=0; p < lenp-1; p++) {
+        int slen = suffix_length(pattern, lenp, p);
+        if (pattern[p - slen] != pattern[lenp-1 - slen]) {
+            delta2table[lenp-1 - slen] = lenp-1 - p + slen;
+        }
+    }
+}
 
 void printdelta2(char *pattern, int *delta2table, int len){
     int i;
     printf("Tabela Delta 2:\n");
     for (i=0; i<len; i++){
-        if (delta2table[i]== ' ')
+        if (delta2table[i]== 32)
             printf("’ ’: %d\n", delta2table[i]);
         else
             printf("%c: %d\n", pattern[i], delta2table[i]);
     }
-/*A saída deverá ser da seguinte forma. Na primeira linha, deve aparecer
-"Tabela Delta 2:". Em seguida, cada linha conterá o valor de delta2 para
-um caractere do padrão. Seguindo os caracteres do padrão, na ordem
-em que aparecem, a operação deve imprimir: o caractere, seguido de dois
-pontos (’:’), seguido de um espaço, seguido do valor de delta2 para o
-caractere. Se o caractere espaço ocorrer no padrão, ele deve aparecer
-como a sequência de caracteres apóstrofe, espaço, apóstrofe (’ ’).*/
+    /*A saída deverá ser da seguinte forma. Na primeira linha, deve aparecer
+      "Tabela Delta 2:". Em seguida, cada linha conterá o valor de delta2 para
+      um caractere do padrão. Seguindo os caracteres do padrão, na ordem
+      em que aparecem, a operação deve imprimir: o caractere, seguido de dois
+      pontos (’:’), seguido de um espaço, seguido do valor de delta2 para o
+      caractere. Se o caractere espaço ocorrer no padrão, ele deve aparecer
+      como a sequência de caracteres apóstrofe, espaço, apóstrofe (’ ’).*/
 }
