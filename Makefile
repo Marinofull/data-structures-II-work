@@ -16,8 +16,8 @@ CC=gcc
 # CFLAGS= -c -Wall
 CFLAGS= -c
 LDFLAGS= -g -o
-SOURCE=trabalho1-marino.c
-EXECUTABLE=trabalho1-marino
+EXECUTABLE=trabalho2-marino
+SOURCE=$(EXECUTABLE).c
 
 
 all: $(EXECUTABLE)
@@ -43,7 +43,7 @@ cleanBin:
 	rm -rf $(EXECUTABLE)
 
 cleanFiles:
-	rm -rf lili
+	rm -rf out*
 
 # help
 

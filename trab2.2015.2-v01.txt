@@ -1,0 +1,81 @@
+Universidade Federal da Bahia
+Graduação em Ciência da Computação
+MATA54 - Estruturas de Dados e Algoritmos II
+Segundo Trabalho Prático
+Prof. Flávio Assis
+Semestre 2015.2 - 4 de abril de 2016
+
+Busca por Palavras - Algoritmo de Boyer-Moore
+
+1
+
+Descrição Geral do Trabalho
+
+Neste trabalho o aluno implementará o algoritmo Boyer-Moore de busca de
+cadeias de caracteres. O programa lerá uma linha de texto e um padrão e
+executará um conjunto de operações. O trabalho deve assumir a definição de
+entrada e saída como indicada na seção a seguir.
+A referência para o trabalho é o artigo:
+R.S.Boyer, J.S.Moore. A Fast String Searching Algorithm. Communications
+of the ACM. Vol. 20, No. 10. Outubro, 1977.
+
+2
+
+Formato da Entrada e Saída
+
+A entrada conterá inicialmente três linhas. A primeira linha conterá um inteiro
+indicando quantos caracteres possui a linha de texto. A segunda linha conterá a
+linha de texto. A terceira linha conterá um padrão. O aluno assumirá o seguinte
+formato de entrada:
+1. o tamanho do padrão (número de caracteres) será menor ou igual ao
+tamanho do texto;
+2. no texto e no padrão somente poderão ocorrer os seguintes caracteres:
+letras minúsculas, sem acento; ponto (’.’); vírgula (’,’) e espaço. O último
+caractere do texto e do padrão não será um espaço.
+
+Após o padrão, haverá uma sequência de operações, uma por linha. O
+conjunto de operações a serem implementadas e seus formatos são os seguintes:
+1. busca padrão: esta operação consistirá de uma única linha contendo a
+letra ’s’. Esta operação indicará a partir de quais posições do texto o
+padrão ocorre. A posição do primeiro caractere é a posição 1.
+A saída desta operação deve indicar, uma por linha, as posições a partir das quais o padrão ocorre. Caso o padrão não ocorra no texto, esta
+operação não gera nenhuma saída.
+2. impressão da tabela delta1 : esta operação conterá apenas uma linha,
+contendo a letra ’u’. Esta operação imprime a tabela delta1 , como descrito
+no artigo.
+A saída deverá ser da seguinte forma. Na primeira linha, deve aparecer
+"Tabela Delta 1:". Em seguida, cada linha conterá o valor de delta1 para
+um caractere válido, no seguinte formato: o caractere, seguido de dois
+pontos (’:’), seguido de um espaço, seguido do valor de delta1 para o
+caractere. Primeiro devem aparecer as letras, em ordem crescente, depois
+o ponto (’.’), depois a vírgula (’,’) e depois o espaço. O caractere espaço
+deve aparecer como a sequência de caracteres apóstrofe, espaço, apóstrofe
+(’ ’).
+3. impressão da tabela delta2 : esta operação conterá apenas uma linha,
+contendo a letra ’d’. Esta operação imprime a tabela delta2 , como descrito
+no artigo.
+A saída deverá ser da seguinte forma. Na primeira linha, deve aparecer
+"Tabela Delta 2:". Em seguida, cada linha conterá o valor de delta2 para
+um caractere do padrão. Seguindo os caracteres do padrão, na ordem
+em que aparecem, a operação deve imprimir: o caractere, seguido de dois
+pontos (’:’), seguido de um espaço, seguido do valor de delta2 para o
+caractere. Se o caractere espaço ocorrer no padrão, ele deve aparecer
+como a sequência de caracteres apóstrofe, espaço, apóstrofe (’ ’).
+4. término da sequência de comandos: a sequência de comandos será
+terminada por uma linha com a letra ’e’.
+
+3
+
+Observações
+
+Trabalho individual. O aluno deve entregar seu trabalho através da plataforma
+Moodle, em um único arquivo (caso haja mais de um arquivo, comprima-os com
+zip).
+Data de entrega: 09/05/2016
+Linguagens de programação permitidas: C, C++, Java ou Python.
+Observação Importante: Para as linguagens C, C++ e Java, somente trabalhos feitos utilizando-se os seguintes compiladores serão aceitos:
+• C: gcc ou djgpp
+• C++: g++ ou djgpp
+• Java: compilador java do JDK (mais recente)
+Não serão compilados trabalhos em outros compiladores! Erros ocasionados por uso de diferentes compiladores serão considerados erros
+do trabalho!
