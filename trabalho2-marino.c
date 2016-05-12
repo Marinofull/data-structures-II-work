@@ -53,20 +53,6 @@ int main()
     }
     return 0;
 }
-/*
-printf("%ld\n", sizeof(text)/sizeof(text[0])); tamanho alocado
-printf("%ld\n", strlen(text)); tamanho até o \0
-void search(int length, char *text, char *pattern){
-    int i, n, v*;
-    v = bmoore();
-    n= (int) sizeof(v)/sizeof(v[0]);
-    for(i=0; i-n; i--)
-        printf("%d\n", v[i]);
-    free(v);
-}
-
-int* bmoore(int length, char *text, char *pattern){}
-*/
 
 void bmoore(int lent, char *text, int lenp, char *pattern, int *delta1table, int *delta2table){
     int jmp, aux, i, aki;
@@ -77,13 +63,10 @@ void bmoore(int lent, char *text, int lenp, char *pattern, int *delta1table, int
         if(aki == -1){ //-1 eh quando encontra
             //pop(whereis, i-lenp); //se der tempo troca o print por uma lista das posições
             printf("%d\n", i-(lenp-1)+1); //i-(lenp-1) eh onde o padrão começa, +1 pra normalizar
-            i++; // enquanto nao ha delta2
-            //i= i-(lenp-1) + delta2table[0]; //delta2table[0] além de um salto maior que i++, também permite encontrar um padrao que tem prefixo no sufixo do anterior encontrado
+            i= i-(lenp-1) + delta2table[0]; //delta2table[0] além de um salto maior que i++, também permite encontrar um padrao que tem prefixo no sufixo do anterior encontrado
         }else{
             aux = i - (lenp -1 - aki);//(lenp-1-aki) é quantos voltou até quebrar. aux recebe o local que quebrou
-            jmp = delta1table[text[aux]];
-            i = (jmp)?(i+jmp):(i+1); // se o delta1 do salto for zero, então salta +1 apartir de i
-            //i+= max(delta2table[aki], delta1table[text[pos-aki]]); //salta o valor maior
+            i= aux + max(delta2table[aki], delta1table[text[aux]]); //salta o valor maior
         }
     }
 }
@@ -124,16 +107,14 @@ deve aparecer como a sequência de caracteres apóstrofe, espaço, apóstrofe
 
 int suffix_is_prefix(char *pattern, int lenp, int pos) {
     int i, lensuffix = lenp - pos;
-    for (i=0; (i < lensuffix) && (pattern[i] != pattern[pos+i]); i++);
+    for (i=0; (i < lensuffix) && (pattern[i] == pattern[pos+i]); i++);
     //se lensuffix-i for zero é pq é prefixo: então retorne 1
     return (lensuffix-i)?0:1;
 }
 
-//suffix_length("dddbcabc", 8, 4) = 2
-int suffix_length(char *pattern, int lenp, int pos) {
+int len_suffix(char *pattern, int lenp, int pos) {
     int i;
-    // increment suffix length i to the first mismatch or beginning
-    // of the pattern
+    // retorna o lenthg do maior sufixo que repete apartir de pos
     for (i = 0; (pattern[pos-i] == pattern[lenp-1-i]) && (i < pos); i++);
     return i;
 }
@@ -142,7 +123,6 @@ void delta2(char *pattern, int *delta2table, int lenp){
     int p;
     int last_prefix_index = lenp-1;
 
-    //first loop
     for (p=lenp-1; p>=0; p--) {
         if (suffix_is_prefix(pattern, lenp, p+1)) {
             last_prefix_index = p+1;
@@ -150,9 +130,8 @@ void delta2(char *pattern, int *delta2table, int lenp){
         delta2table[p] = last_prefix_index + (lenp-1 - p);
     }
 
-    // second loop
     for (p=0; p < lenp-1; p++) {
-        int slen = suffix_length(pattern, lenp, p);
+        int slen = len_suffix(pattern, lenp, p);
         if (pattern[p - slen] != pattern[lenp-1 - slen]) {
             delta2table[lenp-1 - slen] = lenp-1 - p + slen;
         }
@@ -163,7 +142,7 @@ void printdelta2(char *pattern, int *delta2table, int len){
     int i;
     printf("Tabela Delta 2:\n");
     for (i=0; i<len; i++){
-        if (delta2table[i]== 32)
+        if (pattern[i]== 32)
             printf("’ ’: %d\n", delta2table[i]);
         else
             printf("%c: %d\n", pattern[i], delta2table[i]);
